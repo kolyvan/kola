@@ -21,7 +21,7 @@ last-modified:date "2015-12-02T19:10:00GMT"
 red:color  0xff0000
 blue:color 0x00ff00
 
-info {
+section {
 
     # numbers
     id 123456
