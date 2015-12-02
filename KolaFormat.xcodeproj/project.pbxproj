@@ -19,6 +19,9 @@
 		F982836E1C0D892100FD45BF /* KolaFormatReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F982836C1C0D892100FD45BF /* KolaFormatReader.m */; };
 		F98283711C0D915F00FD45BF /* KolaFormat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F98283351C0D853A00FD45BF /* KolaFormat.framework */; };
 		F982838A1C0EACCE00FD45BF /* sample.kola in Resources */ = {isa = PBXBuildFile; fileRef = F98283891C0EACCE00FD45BF /* sample.kola */; };
+		F98283A11C0EECDE00FD45BF /* KolaFormatWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = F98283A01C0EECDE00FD45BF /* KolaFormatWriter.m */; };
+		F98283AF1C0EF4B700FD45BF /* KolaFormatWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = F982839F1C0EECDE00FD45BF /* KolaFormatWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F98283B11C0F1C4F00FD45BF /* test.kola in Resources */ = {isa = PBXBuildFile; fileRef = F98283B01C0F1C4F00FD45BF /* test.kola */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,9 @@
 		F982836B1C0D892100FD45BF /* KolaFormatReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KolaFormatReader.h; path = source/KolaFormatReader.h; sourceTree = "<group>"; };
 		F982836C1C0D892100FD45BF /* KolaFormatReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KolaFormatReader.m; path = source/KolaFormatReader.m; sourceTree = "<group>"; };
 		F98283891C0EACCE00FD45BF /* sample.kola */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sample.kola; path = samples/sample.kola; sourceTree = "<group>"; };
+		F982839F1C0EECDE00FD45BF /* KolaFormatWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KolaFormatWriter.h; path = source/KolaFormatWriter.h; sourceTree = "<group>"; };
+		F98283A01C0EECDE00FD45BF /* KolaFormatWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KolaFormatWriter.m; path = source/KolaFormatWriter.m; sourceTree = "<group>"; };
+		F98283B01C0F1C4F00FD45BF /* test.kola */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = test.kola; path = samples/test.kola; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +160,8 @@
 			children = (
 				F982836B1C0D892100FD45BF /* KolaFormatReader.h */,
 				F982836C1C0D892100FD45BF /* KolaFormatReader.m */,
+				F982839F1C0EECDE00FD45BF /* KolaFormatWriter.h */,
+				F98283A01C0EECDE00FD45BF /* KolaFormatWriter.m */,
 			);
 			name = source;
 			sourceTree = "<group>";
@@ -161,6 +169,7 @@
 		F98283881C0EAC9C00FD45BF /* samples */ = {
 			isa = PBXGroup;
 			children = (
+				F98283B01C0F1C4F00FD45BF /* test.kola */,
 				F98283891C0EACCE00FD45BF /* sample.kola */,
 			);
 			name = samples;
@@ -175,6 +184,7 @@
 			files = (
 				F98283391C0D853A00FD45BF /* KolaFormat.h in Headers */,
 				F982836D1C0D892100FD45BF /* KolaFormatReader.h in Headers */,
+				F98283AF1C0EF4B700FD45BF /* KolaFormatWriter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +307,7 @@
 				F98283651C0D858400FD45BF /* LaunchScreen.storyboard in Resources */,
 				F98283621C0D858400FD45BF /* Assets.xcassets in Resources */,
 				F982838A1C0EACCE00FD45BF /* sample.kola in Resources */,
+				F98283B11C0F1C4F00FD45BF /* test.kola in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +336,7 @@
 			files = (
 				F982835D1C0D858400FD45BF /* ViewController.m in Sources */,
 				F982835A1C0D858400FD45BF /* AppDelegate.m in Sources */,
+				F98283A11C0EECDE00FD45BF /* KolaFormatWriter.m in Sources */,
 				F98283571C0D858400FD45BF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

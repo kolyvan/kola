@@ -23,11 +23,26 @@
     self.window.rootViewController = [ViewController new];
     [self.window makeKeyAndVisible];
     
+#if 1
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"kola"];
+    NSString *string = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    NSDictionary *dict; NSError *error;
+    dict = [KolaFormatReader dictionaryWithString:string env:nil funcs:self.funcsTable error:&error];
+    
+    NSString *ts = [KolaFormatWriter stringWithDictionary:dict funcs:nil];
+    NSLog(@"\n%@", ts);
+    
+    NSDictionary *td = [KolaFormatReader dictionaryWithString:ts env:nil funcs:self.funcsTable error:&error];
+    NSLog(@"\n%d", [dict isEqualToDictionary:td]);
+    
+#else
     NSString *path = [[NSBundle mainBundle] pathForResource:@"sample" ofType:@"kola"];
     NSString *string = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     NSDictionary *dict; NSError *error;
     dict = [KolaFormatReader dictionaryWithString:string env:nil funcs:self.funcsTable error:&error];
-    NSLog(@"%@", dict ?: error);
+    NSLog(@"\n%@", dict ?: error);
+#endif
     
     return YES;
 }

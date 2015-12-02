@@ -1,0 +1,53 @@
+
+d1 {
+    a1 {
+        a2 11
+        b2 12
+        c2 { c3 {} }
+        d2 [ [21 22 23] [] ]
+    }
+
+    b1 [
+        11
+        12
+        {
+            a3 [ 31 32 33 ]
+            b3 31
+            c3 { a4 [] b4 {} }
+        }
+    ]
+}
+
+n1 75
+n2 3.14
+n3 -3.14
+
+b1 true
+b2 false
+
+s1 "\ttest\n'string'\\1"
+s2 "Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+a1 [ 1 2 ]
+a2 [ 0 [ 1 1 1] [ 2 2 2] [ 3 3 3] 4 ]
+a3 [ { a1 1 } { a2 2 a3 3 } 0 [ 1 2 ] 3 ]
+
+d2 {
+    a1 {
+        a2 11
+        b2 12
+        c2 { c3 {} }
+        d2 [ [21 22 23] [] ]
+    }
+
+    b1 [
+        11
+        12
+        {
+            a3 [ 31 32 33 ]
+            b3 31
+            c3 { a4 [] b4 {} }
+        }
+    ]
+}

@@ -17,3 +17,4 @@ FOUNDATION_EXPORT const unsigned char KolaFormatVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <KolaFormat/PublicHeader.h>
 
 #import <KolaFormat/KolaFormatReader.h>
+#import <KolaFormat/KolaFormatWriter.h>
