@@ -45,22 +45,25 @@
          if (sKey.length) {
              
              if (oneline && counter) {
-                 [ms appendString:@","];
+                 [ms appendString:@" "];
              }
              
              if (oneline) {
                  
-                 [ms appendFormat:@"%@ ", sKey];
+                 [ms appendString:sKey];
                  
              } else if (!level) {
              
-                 [ms appendFormat:@"\n%@ ", sKey];
+                 [ms appendString:@"\n"];
+                 [ms appendString:sKey];
                  
              } else {
                  
                  [self printPad:ms level:level];
-                 [ms appendFormat:@"%@ ", sKey];
+                 [ms appendString:sKey];
              }
+             
+             [ms appendString:@" "];
              
              if (![self printValue:val funcs:funcs toString:ms level:level + 2]) {
                  [ms appendString:@"_"];
@@ -87,7 +90,7 @@
     for (id val in array) {
         
         if (oneline && counter) {
-            [ms appendString:@","];
+            [ms appendString:@" "];
         }
         
         if (!oneline) {
