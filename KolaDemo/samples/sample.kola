@@ -1,0 +1,68 @@
+#
+# kolyvan's laconic configuration file format (kola)
+
+# content of .kola file is a sequence of key-value pairs
+# key is an alphanumeric sequence
+# key may has a suffix as an usertype hint, for example 'changed:date'
+# value is a number, boolean, string, array, dictionary and reference
+# string are surrounded by quotation marks, may include escaped sequences, and may be multi-lined.
+# array is a sequence of values surrounded by [ ]
+# dictonary is a sequence of key-value pairs surrounded by { }
+# comma (,) between pairs in dictionary and between values in array is optional (only for readability)
+# assignment (=) in a pair is optional too (only for readability)
+# comments begins from '#' till end of line
+# reference is a key's name, an unknown reference will be interpreted as string
+# '_' is a placeholder for unspecified value (nsnull in objective-c)
+
+title 'the example of .kola file'
+last-modified:date "2015-12-02T19:10:00GMT"
+
+# 
+red:color  0xff0000
+blue:color 0x00ff00
+
+info {
+
+    # numbers
+    id 123456
+    ratio -10.05
+    zero 0
+
+    # boolean
+    flag true, untrue false
+
+    # strings
+    author "kolyvan"
+    file-ext "kola"
+    fullname "kolyvan's laconic configuration file format"
+    escaped "\tescaped text:\n'\u041A\u041E\u041B\u0410'"
+    multi-line "Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+    # array
+    bag-of-things [ red blue 3.14 false
+                    [ 1, 2, 3 ] # optional commas
+                    { foo 'bar' } ]
+
+    # inline comments and newlines
+    value # 42
+            72
+
+    # optional = , just for readability
+    subject = "config",
+    another-subject "sample"
+
+    # dictionary
+    oneline {a 1, b 2, c 3, d 4}
+
+    # subdict with references
+    more
+    {
+        name author
+        date last-modified
+        table oneline
+    }
+
+    # null value as _
+    unspecified _
+}
