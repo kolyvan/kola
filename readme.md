@@ -44,7 +44,7 @@ Kolyvan's laconic configuration file format (kola) with a pretty simple notation
 * A content of .kola file is a sequence of key-value pairs.
 * Key is an alphanumeric sequence.
 * Value is a number, boolean, string, array, dictionary and reference.
-# Value may has a typename as prefix in brackets ala '(color)value'
+* Value may has a typename as prefix in brackets ala '(color)value'
 * String are surrounded by quotation marks, may include escaped sequences, and may be multi-lined.
 * Array is a sequence of values surrounded by [ ].
 * Dictonary is a sequence of key-value pairs surrounded by { }.
