@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F97B189A1C102C860064AA92 /* KolaFormatWriterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F97B18991C102C860064AA92 /* KolaFormatWriterTests.m */; };
+		F97B189B1C102D0F0064AA92 /* KolaFormatWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = F98283A01C0EECDE00FD45BF /* KolaFormatWriter.m */; };
+		F97B189C1C102FF20064AA92 /* test.kola in Resources */ = {isa = PBXBuildFile; fileRef = F98283B01C0F1C4F00FD45BF /* test.kola */; };
 		F98283391C0D853A00FD45BF /* KolaFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = F98283381C0D853A00FD45BF /* KolaFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F98283401C0D853B00FD45BF /* KolaFormat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F98283351C0D853A00FD45BF /* KolaFormat.framework */; };
 		F98283451C0D853B00FD45BF /* KolaFormatReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F98283441C0D853B00FD45BF /* KolaFormatReaderTests.m */; };
@@ -19,7 +22,6 @@
 		F982836E1C0D892100FD45BF /* KolaFormatReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F982836C1C0D892100FD45BF /* KolaFormatReader.m */; };
 		F98283711C0D915F00FD45BF /* KolaFormat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F98283351C0D853A00FD45BF /* KolaFormat.framework */; };
 		F982838A1C0EACCE00FD45BF /* sample.kola in Resources */ = {isa = PBXBuildFile; fileRef = F98283891C0EACCE00FD45BF /* sample.kola */; };
-		F98283A11C0EECDE00FD45BF /* KolaFormatWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = F98283A01C0EECDE00FD45BF /* KolaFormatWriter.m */; };
 		F98283AF1C0EF4B700FD45BF /* KolaFormatWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = F982839F1C0EECDE00FD45BF /* KolaFormatWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F98283B11C0F1C4F00FD45BF /* test.kola in Resources */ = {isa = PBXBuildFile; fileRef = F98283B01C0F1C4F00FD45BF /* test.kola */; };
 /* End PBXBuildFile section */
@@ -42,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F97B18991C102C860064AA92 /* KolaFormatWriterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KolaFormatWriterTests.m; sourceTree = "<group>"; };
 		F98283351C0D853A00FD45BF /* KolaFormat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KolaFormat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F98283381C0D853A00FD45BF /* KolaFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KolaFormat.h; sourceTree = "<group>"; };
 		F982833A1C0D853A00FD45BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				F98283441C0D853B00FD45BF /* KolaFormatReaderTests.m */,
+				F97B18991C102C860064AA92 /* KolaFormatWriterTests.m */,
 				F98283461C0D853B00FD45BF /* Info.plist */,
 			);
 			path = KolaFormatTests;
@@ -297,6 +301,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F97B189C1C102FF20064AA92 /* test.kola in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F97B189B1C102D0F0064AA92 /* KolaFormatWriter.m in Sources */,
 				F982836E1C0D892100FD45BF /* KolaFormatReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,6 +332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F97B189A1C102C860064AA92 /* KolaFormatWriterTests.m in Sources */,
 				F98283451C0D853B00FD45BF /* KolaFormatReaderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,7 +343,6 @@
 			files = (
 				F982835D1C0D858400FD45BF /* ViewController.m in Sources */,
 				F982835A1C0D858400FD45BF /* AppDelegate.m in Sources */,
-				F98283A11C0EECDE00FD45BF /* KolaFormatWriter.m in Sources */,
 				F98283571C0D858400FD45BF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

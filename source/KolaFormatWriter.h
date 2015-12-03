@@ -10,6 +10,8 @@
 
 @interface KolaFormatWriter : NSObject
 
++ (NSString *) stringWithDictionary:(NSDictionary *)dict;
+
 + (NSString *) stringWithDictionary:(NSDictionary *)dict
                               funcs:(NSArray *)funcs;
 

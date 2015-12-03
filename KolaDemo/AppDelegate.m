@@ -134,6 +134,8 @@
                   r = components[0] * 255.;
                   g = components[1] * 255.;
                   b = components[2] * 255.;
+              } else {
+                  return (id)nil;
               }
               int rgba = (0xff000000) | ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
               return (id)[NSString stringWithFormat:@"0x%x", rgba];              

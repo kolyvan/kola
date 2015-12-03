@@ -38,8 +38,12 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
                                   funcs:(NSDictionary *)funcs
                                   error:(NSError **)error
 {
-    if (!string.length) {
+    if (!string) {
         return nil;
+    }
+    
+    if (!string.length) {
+        return @{};
     }
     
     NSScanner *scanner = [NSScanner scannerWithString:string];

@@ -16,8 +16,8 @@
 @implementation KolaFormatReaderTests
 
 - (void)testEmpty {
-    
-    XCTAssertNil([KolaFormatReader dictionaryWithString:@""]);
+
+    XCTAssertEqualObjects([KolaFormatReader dictionaryWithString:@""], @{});
 }
 
 - (void)testBase {

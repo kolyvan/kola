@@ -11,6 +11,11 @@
 @implementation KolaFormatWriter
 
 + (NSString *) stringWithDictionary:(NSDictionary *)dict
+{
+    return [self stringWithDictionary:dict funcs:nil];
+}
+
++ (NSString *) stringWithDictionary:(NSDictionary *)dict
                               funcs:(NSArray *)funcs
 {
     if (!dict.count) {
