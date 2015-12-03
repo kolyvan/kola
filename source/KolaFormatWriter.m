@@ -11,7 +11,7 @@
 @implementation KolaFormatWriter
 
 + (NSString *) stringWithDictionary:(NSDictionary *)dict
-                              funcs:(NSDictionary *)funcs
+                              funcs:(NSArray *)funcs
 {
     if (!dict.count) {
         return @"";
@@ -23,7 +23,7 @@
 }
 
 + (void) printDictionary:(NSDictionary *)dict
-                   funcs:(NSDictionary *)funcs
+                   funcs:(NSArray *)funcs
                 toString:(NSMutableString *)ms
                    level:(NSUInteger)level
 {
@@ -79,7 +79,7 @@
 }
 
 + (void) printArray:(NSArray *)array
-              funcs:(NSDictionary *)funcs
+              funcs:(NSArray *)funcs
            toString:(NSMutableString *)ms
               level:(NSUInteger)level
 {
@@ -108,7 +108,7 @@
 }
 
 + (BOOL) printValue:(id)val
-              funcs:(NSDictionary *)funcs
+              funcs:(NSArray *)funcs
            toString:(NSMutableString *)ms
               level:(NSUInteger)level
 {
@@ -134,16 +134,30 @@
         
     } else {
         
-        id p;
-        if (funcs) {
-            id(^func)(id) = funcs[[val class]];
-            if (func) {
-                p = func(val);
+        if (funcs.count) {
+            
+            for (id(^func)(id, NSString **) in funcs) {
+                NSString *typename;
+                id p = func(val, &typename);
+                if (p) {
+                    
+                    if (typename.length) {
+                        [ms appendString:@"("];
+                        [ms appendString:typename];
+                        [ms appendString:@")"];
+                    }
+                                        
+                    if ([p isKindOfClass:[NSString class]] ||
+                        [p isKindOfClass:[NSNumber class]])
+                    {
+                        [ms appendFormat:@"%@", p];
+                        return YES;
+                        
+                    } else {
+                        return [self printValue:p funcs:nil toString:ms level:level];
+                    }
+                }
             }
-        }
-        
-        if (p) {
-            return [self printValue:val funcs:nil toString:ms level:level];
         }
     }
 

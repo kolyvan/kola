@@ -1,6 +1,6 @@
 //
-//  KolaFormatTests.m
-//  KolaFormatTests
+//  KolaFormatReaderTests.m
+//  KolaFormatReaderTests
 //
 //  Created by Kolyvan on 01.12.15.
 //  Copyright © 2015 Konstantin Bukreev. All rights reserved.
@@ -9,11 +9,11 @@
 #import <XCTest/XCTest.h>
 #import "KolaFormatReader.h"
 
-@interface KolaFormatTests : XCTestCase
+@interface KolaFormatReaderTests : XCTestCase
 
 @end
 
-@implementation KolaFormatTests
+@implementation KolaFormatReaderTests
 
 - (void)testEmpty {
     
@@ -185,16 +185,42 @@
 - (void) testFuncs
 {
     NSDictionary *funcs = @{
+                            
                            @"timestamp" : ^(id val) {
                                if ([val isKindOfClass:[NSNumber class]]) {
                                    return (id)[NSDate dateWithTimeIntervalSinceReferenceDate:[val floatValue]];
                                }
                                return (id)nil;
                            },
+                           
+                           @"rect" : ^(id val) {
+                               if ([val isKindOfClass:[NSDictionary class]]) {
+                                   NSDictionary *dict = val;
+                                   const float x = [[dict objectForKey:@"x"] floatValue];
+                                   const float y = [[dict objectForKey:@"y"] floatValue];
+                                   const float w = [[dict objectForKey:@"w"] floatValue];
+                                   const float h = [[dict objectForKey:@"h"] floatValue];
+                                   return (id)[NSValue valueWithCGRect:(CGRect){x, y, w, h}];
+                               }
+                               return (id)nil;
+                           },
+                           
+                           @"size" : ^(id val) {
+                               if ([val isKindOfClass:[NSArray class]]) {
+                                   NSArray *array = val;
+                                   const float w = [array[0] floatValue];
+                                   const float h = [array[1] floatValue];
+                                   return (id)[NSValue valueWithCGSize:(CGSize){w, h}];
+                               }
+                               return (id)nil;
+                           },
                            };
     
-    NSDictionary *d = @{ @"t" : [NSDate dateWithTimeIntervalSinceReferenceDate:12345]  };
-    NSDictionary *t = [KolaFormatReader dictionaryWithString:@"t:timestamp 12345" env:nil funcs:funcs error:nil];
+    NSDictionary *d = @{ @"t" : [NSDate dateWithTimeIntervalSinceReferenceDate:12345],
+                         @"r" : [NSValue valueWithCGRect:(CGRect){1,2,10,20}],
+                         @"s" : [NSValue valueWithCGSize:(CGSize){15,7}]};
+    NSString *s = @"t (timestamp)12345 r (rect){x 1 y 2 w 10 h 20 } s (size)[15, 7]";
+    NSDictionary *t = [KolaFormatReader dictionaryWithString:s env:nil funcs:funcs error:nil];
     XCTAssertEqualObjects(t, d);
 }
 
@@ -313,6 +339,17 @@
     XCTAssertNil([KolaFormatReader dictionaryWithString:@"a {b [}" error:&error]);
     XCTAssertEqual(error.code, KolaFormatReaderErrorSyntax);
     XCTAssertTrue([error.localizedFailureReason hasPrefix:@"expect ']'"]);
+    
+    error = nil;
+    XCTAssertNil([KolaFormatReader dictionaryWithString:@"a (b 1" error:&error]);
+    XCTAssertEqual(error.code, KolaFormatReaderErrorSyntax);
+    XCTAssertTrue([error.localizedFailureReason hasPrefix:@"expect ')'"]);
+    
+    error = nil;
+    XCTAssertNil([KolaFormatReader dictionaryWithString:@"a )b 1" error:&error]);
+    XCTAssertEqual(error.code, KolaFormatReaderErrorSyntax);
+    XCTAssertTrue([error.localizedFailureReason hasPrefix:@"unexpected ')'"]);
+    
 }
 
 - (void) testUnescape {

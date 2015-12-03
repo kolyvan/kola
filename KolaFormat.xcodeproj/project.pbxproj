@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		F98283391C0D853A00FD45BF /* KolaFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = F98283381C0D853A00FD45BF /* KolaFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F98283401C0D853B00FD45BF /* KolaFormat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F98283351C0D853A00FD45BF /* KolaFormat.framework */; };
-		F98283451C0D853B00FD45BF /* KolaFormatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F98283441C0D853B00FD45BF /* KolaFormatTests.m */; };
+		F98283451C0D853B00FD45BF /* KolaFormatReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F98283441C0D853B00FD45BF /* KolaFormatReaderTests.m */; };
 		F98283571C0D858400FD45BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F98283561C0D858400FD45BF /* main.m */; };
 		F982835A1C0D858400FD45BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F98283591C0D858400FD45BF /* AppDelegate.m */; };
 		F982835D1C0D858400FD45BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F982835C1C0D858400FD45BF /* ViewController.m */; };
@@ -46,7 +46,7 @@
 		F98283381C0D853A00FD45BF /* KolaFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KolaFormat.h; sourceTree = "<group>"; };
 		F982833A1C0D853A00FD45BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F982833F1C0D853B00FD45BF /* KolaFormatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KolaFormatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F98283441C0D853B00FD45BF /* KolaFormatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KolaFormatTests.m; sourceTree = "<group>"; };
+		F98283441C0D853B00FD45BF /* KolaFormatReaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KolaFormatReaderTests.m; sourceTree = "<group>"; };
 		F98283461C0D853B00FD45BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F98283531C0D858400FD45BF /* KolaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KolaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F98283561C0D858400FD45BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		F98283431C0D853B00FD45BF /* KolaFormatTests */ = {
 			isa = PBXGroup;
 			children = (
-				F98283441C0D853B00FD45BF /* KolaFormatTests.m */,
+				F98283441C0D853B00FD45BF /* KolaFormatReaderTests.m */,
 				F98283461C0D853B00FD45BF /* Info.plist */,
 			);
 			path = KolaFormatTests;
@@ -326,7 +326,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F98283451C0D853B00FD45BF /* KolaFormatTests.m in Sources */,
+				F98283451C0D853B00FD45BF /* KolaFormatReaderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

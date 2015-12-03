@@ -100,14 +100,7 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
         }
         return KolaFormatReaderResultError;
     }
-    
-    NSString *type;
-    const NSUInteger idx = [key rangeOfString:@":" options:NSBackwardsSearch].location;
-    if (idx != NSNotFound) {
-        type = [key substringFromIndex:idx+1];
-        key = [key substringToIndex:idx];
-    }
-    
+        
     [self skipBeforeValue:scanner];
     
     id val;
@@ -117,23 +110,6 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
                                                 value:&val
                                                 error:error];
     if (res == KolaFormatReaderResultGood) {
-        
-        if (type) {
-            
-            id newval;
-            if (funcs.count) {
-                id(^func)(id) = funcs[type];
-                newval = func(val);
-            }
-            
-            if (newval) {
-                val = newval;
-            } else {
-#if DEBUG
-                NSLog(@"unable to convert '%@' to type '%@' at: %u", val, type, (unsigned)scanner.scanLocation);
-#endif
-            }
-        }
         
         *outKey = key;
         *outVal = val;
@@ -155,117 +131,122 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
                               value:(id *)outVal
                               error:(NSError **)error
 {
-    // probe begin block
-    
-    NSString *bgn;
-    if ([scanner scanCharactersFromSet:self.openBracketCharset intoString:&bgn]) {
+    NSString *typename;
+    if ([scanner scanString:@"(" intoString:nil]) {
         
-        if ([bgn hasPrefix:@"{"]) {
-            
-            if (bgn.length > 1) {
-                scanner.scanLocation -= (bgn.length - 1);
-            }
-            
-            NSDictionary *dict;
-            if (![self scanNext:scanner
-                           envs:envs
-                          funcs:funcs
-                     expectTerm:YES
-                           dict:&dict
-                          error:error]) {
-                return KolaFormatReaderResultError;
-            }
-            
-            *outVal = dict;
-            return KolaFormatReaderResultGood;
-            
-        } else if ([bgn hasPrefix:@"["]) {
-            
-            if (bgn.length > 1) {
-                scanner.scanLocation -= (bgn.length - 1);
-            }
-            
-            NSArray *array;
-            if (![self scanNext:scanner
-                           envs:envs
-                          funcs:funcs
-                          array:&array
-                          error:error]) {
-                return KolaFormatReaderResultError;
-            }
-            
-            *outVal = array;
-            return KolaFormatReaderResultGood;
-            
-        } else {
-            
-            if (error) {
-                const NSUInteger scanLoc = scanner.scanLocation - bgn.length;
-                *error = [self syntaxError:NSLocalizedString(@"unexpected '%@' at: %u", nil), bgn, (unsigned)scanLoc];
-            }
+        if (![self scanNext:scanner quote:@")" unescape:NO value:&typename error:error]) {
             return KolaFormatReaderResultError;
         }
     }
     
-    NSString *val;
-    if (![scanner scanUpToCharactersFromSet:self.pairSeparatorsCharset intoString:&val]) {
-        return KolaFormatReaderResultEmpty;
-    }
-    
-    // process value
-    
-    if ([val isEqualToString:@"_"]) {
+    id result;
+    if ([scanner scanString:@"{" intoString:nil]) {
         
-        *outVal = [NSNull null];
-        return KolaFormatReaderResultGood;
-        
-    } else if ([val isEqualToString:@"true"]) {
-            
-        *outVal = @YES;
-        return KolaFormatReaderResultGood;
-            
-    } else if ([val isEqualToString:@"false"]) {
-        
-        *outVal = @NO;
-        return KolaFormatReaderResultGood;
-        
-    } else if ([val hasPrefix:@"'"]) {
-        
-        scanner.scanLocation -= (val.length - 1);
-        if (![self scanNext:scanner quote:@"'" value:outVal error:error]) {
+        NSDictionary *dict;
+        if (![self scanNext:scanner
+                       envs:envs
+                      funcs:funcs
+                 expectTerm:YES
+                       dict:&dict
+                      error:error]) {
             return KolaFormatReaderResultError;
         }
-        return KolaFormatReaderResultGood;
+        result = dict;
         
-    } else if ([val hasPrefix:@"\""]) {
+    } else if ([scanner scanString:@"[" intoString:nil]) {
         
-        scanner.scanLocation -= (val.length - 1);
-        if (![self scanNext:scanner quote:@"\"" value:outVal error:error]) {
+        NSArray *array;
+        if (![self scanNext:scanner
+                       envs:envs
+                      funcs:funcs
+                      array:&array
+                      error:error]) {
             return KolaFormatReaderResultError;
         }
-        return KolaFormatReaderResultGood;
-        
-    } else if ([self scanNumber:val value:outVal]) {
-        
-        return KolaFormatReaderResultGood;
+        result = array;
         
     } else {
         
-        for (NSDictionary *dict in envs.reverseObjectEnumerator) {
-            id p = dict[val];
-            if (p) {
-                *outVal = p;
-                return KolaFormatReaderResultGood;
-            }
+        NSString *val;
+        if (![scanner scanUpToCharactersFromSet:self.pairSeparatorsCharset intoString:&val]) {
+            return KolaFormatReaderResultEmpty;
         }
         
-#if DEBUG
-        NSLog(@"unknown reference: '%@' at: %u", val, (unsigned)(scanner.scanLocation - val.length));
-#endif
+        // process value
         
-        *outVal = val;
-        return KolaFormatReaderResultGood;
+        if ([val isEqualToString:@"_"]) {
+            
+            result = [NSNull null];
+            
+        } else if ([val isEqualToString:@"true"]) {
+            
+            result = @YES;
+            
+        } else if ([val isEqualToString:@"false"]) {
+            
+            result = @NO;
+            
+        } else if ([val hasPrefix:@"'"]) {
+            
+            scanner.scanLocation -= (val.length - 1);
+            if (![self scanNext:scanner quote:@"'" unescape:YES value:&result error:error]) {
+                return KolaFormatReaderResultError;
+            }
+            
+        } else if ([val hasPrefix:@"\""]) {
+            
+            scanner.scanLocation -= (val.length - 1);
+            if (![self scanNext:scanner quote:@"\"" unescape:YES value:&result error:error]) {
+                return KolaFormatReaderResultError;
+            }
+            
+        } else if ([self scanNumber:val value:&result]) {
+            
+            // ok
+            
+        } else {
+                        
+            const NSRange r = [val rangeOfCharacterFromSet:self.closeBracketCharset];
+            if (r.location != NSNotFound) {
+                if (error) {
+                    *error = [self syntaxError:NSLocalizedString(@"unexpected '%@' at: %u", nil),
+                              [val substringWithRange:r],
+                              (unsigned)(scanner.scanLocation - val.length + r.location)];
+                }
+                return KolaFormatReaderResultError;
+            }
+            
+            result = val;
+            
+            if (!typename) {
+                
+                // resolve reference (reference never have typename)
+                
+                id tmp;
+                for (NSDictionary *dict in envs.reverseObjectEnumerator) {
+                    tmp = dict[val];
+                    if (tmp) {
+                        break;
+                    }
+                }
+                
+                if (tmp) {
+                    result = tmp;
+                } else {
+#if DEBUG
+                    NSLog(@"unresolved reference: '%@' at: %u", val, (unsigned)(scanner.scanLocation - val.length));
+#endif
+                }
+            }
+        }
     }
+
+    if (typename) {
+        result = [self castValue:result typename:typename funcs:funcs];
+    }
+    
+    *outVal = result;
+    return KolaFormatReaderResultGood;
 }
 
 + (BOOL) scanNext:(NSScanner *)scanner
@@ -417,6 +398,7 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
 
 + (BOOL) scanNext:(NSScanner *)scanner
             quote:(NSString *)quote
+         unescape:(BOOL)unescape
             value:(NSString **)outVal
             error:(NSError **)error
 {
@@ -426,7 +408,6 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
     NSString *term;
     if (![scanner scanString:quote intoString:&term]) {
         if (error) {
-            //*error = [self eofError];
             const NSUInteger scanLoc = scanner.scanLocation - 1;
             *error = [self syntaxError:NSLocalizedString(@"expect '%@' at: %u", nil), quote, (unsigned)scanLoc];
         }
@@ -434,7 +415,7 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
     }
     
     if (s.length) {
-        *outVal = [self unescapeString:s];
+        *outVal = unescape ? [self unescapeString:s] : s;
     } else {
         *outVal = @"";
     }
@@ -493,6 +474,28 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
 }
 
 #pragma mark - helpers
+
++ (id)castValue:(id)value
+       typename:(NSString *)typename
+          funcs:(NSDictionary*)funcs
+{
+    if (funcs.count) {
+        
+        id(^func)(id) = funcs[typename];
+        if (func) {
+            id res = func(value);
+            if (res) {
+                return res;
+            }
+        }
+    }
+
+#if DEBUG
+        NSLog(@"fail cast '%@' to typename '%@'", value, typename);
+#endif
+
+    return value;
+}
 
 + (BOOL) scanNumber:(NSString *)string
               value:(NSNumber **)outVal
@@ -562,7 +565,7 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSMutableCharacterSet *mcs = [NSMutableCharacterSet whitespaceAndNewlineCharacterSet];
-        [mcs addCharactersInString:@"={[#"];
+        [mcs addCharactersInString:@"={[(#"];
         charset = [mcs copy];
     });
     return charset;
@@ -580,22 +583,12 @@ typedef NS_ENUM(NSUInteger, KolaFormatReaderResult) {
     return charset;
 }
 
-+ (NSCharacterSet *) openBracketCharset
-{
-    static NSCharacterSet *charset;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        charset = [NSCharacterSet characterSetWithCharactersInString:@"{["];
-    });
-    return charset;
-}
-
 + (NSCharacterSet *) closeBracketCharset
 {
     static NSCharacterSet *charset;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        charset = [NSCharacterSet characterSetWithCharactersInString:@"}]"];
+        charset = [NSCharacterSet characterSetWithCharactersInString:@"}])"];
     });
     return charset;
 }

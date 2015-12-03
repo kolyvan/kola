@@ -11,7 +11,7 @@
 @interface KolaFormatWriter : NSObject
 
 + (NSString *) stringWithDictionary:(NSDictionary *)dict
-                              funcs:(NSDictionary *)funcs;
+                              funcs:(NSArray *)funcs;
 
 + (NSString *)escapeString:(NSString *)s;
 

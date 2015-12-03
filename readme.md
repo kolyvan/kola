@@ -5,7 +5,9 @@ Kolyvan's laconic configuration file format (kola) with a pretty simple notation
 ####Example
 
 	title "the example of .kola file"
-	last-modified:date "2015-12-02T19:10:00GMT"
+	last-modified (date)2015-12-02T19:10:00GMT
+	red (color)0xff0000
+	blue (color)0x00ff00
 
 	section {
 
@@ -32,14 +34,17 @@ Kolyvan's laconic configuration file format (kola) with a pretty simple notation
     		# commas and assigments are optional
     		a 1, b 2, c 3 d=4 
 		} 
+
+		view-frame (rect){x 10.0, y 20.0, w 64.0, h 16.0}
+		square-size (size)[20 10]
 	}
 
 ###Rules
 
 * A content of .kola file is a sequence of key-value pairs.
 * Key is an alphanumeric sequence.
-* Key may has a suffix as an usertype hint, for example 'changed:date'.
 * Value is a number, boolean, string, array, dictionary and reference.
+# Value may has a typename as prefix in brackets ala '(color)value'
 * String are surrounded by quotation marks, may include escaped sequences, and may be multi-lined.
 * Array is a sequence of values surrounded by [ ].
 * Dictonary is a sequence of key-value pairs surrounded by { }.

@@ -3,8 +3,8 @@
 
 # content of .kola file is a sequence of key-value pairs
 # key is an alphanumeric sequence
-# key may has a suffix as an usertype hint, for example 'changed:date'
 # value is a number, boolean, string, array, dictionary and reference
+# value may has a typename as prefix in brackets ala '(color)value'
 # string are surrounded by quotation marks, may include escaped sequences, and may be multi-lined.
 # array is a sequence of values surrounded by [ ]
 # dictonary is a sequence of key-value pairs surrounded by { }
@@ -15,11 +15,11 @@
 # '_' is a placeholder for unspecified value (nsnull in objective-c)
 
 title 'the example of .kola file'
-last-modified:date "2015-12-02T19:10:00GMT"
+last-modified (date)2015-12-02T19:10:00GMT
 
 # 
-red:color  0xff0000
-blue:color 0x00ff00
+red (color)0xff0000
+blue (color)0x00ff00
 
 section {
 
@@ -66,3 +66,7 @@ sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     # null value as _
     unspecified _
 }
+
+view-frame (rect){x 10.0, y 20.0, w 64.0, h 16.0}
+square-size (size)[20 10]
+
